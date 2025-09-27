@@ -2,14 +2,22 @@ version: 2.1
 
 jobs:
   build:
+    docker:
+      - image: cimg/python:3.8  # Use a CircleCI Python image
     steps:
       - checkout
       - run: python main.py
+
   test:
+    docker:
+      - image: cimg/python:3.8
     steps:
       - checkout
       - run: python test.py
+
   deploy:
+    docker:
+      - image: cimg/python:3.8
     steps:
       - run: echo "Practical done"
 
@@ -18,11 +26,11 @@ workflows:
     jobs:
       - build
       - test:
-        requires:
-          - build
+          requires:
+            - build
       - deploy:
-        requires:
-          - test
-        filters:
-          branches:
-            only: main
+          requires:
+            - test
+          filters:
+            branches:
+              only: main
